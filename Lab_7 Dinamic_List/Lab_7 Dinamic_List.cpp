@@ -17,10 +17,10 @@ void Add_List_Position(struct Node* pHead, int& last_del_key, int value, int cin
 void Add_List_Before(struct Node* pHead, int& last_del_key, int cin_value, struct Node* t);
 void Add_List_After(struct Node* pHead, int& last_del_key, int cin_value, struct Node* t);
 void Dell_List_Position(struct Node* pHead, int& last_del_key, int cin_position);
+void Dell_List_Value(struct Node* pHead, struct Node* current);
 void Dell_List_Before(struct Node* pHead, int& last_del_key, Node* current);
 void Dell_List_After(struct Node* pHead, int& last_del_key, Node* current);
 Node* Refresh_Position(struct Node* pHead);
-Node* Find_Prev(struct Node* pHead, struct Node* t);
 Node* Clear_List(struct Node* pHead);
 int Set_Key(int& last_del_key, int& count);
 void Find_Key(struct Node* pHead);
@@ -47,14 +47,15 @@ menu: cout << "1 - Создание списка;\n"
 << "-------------------------------------\n"
 << "3 - Добавление в конец списка;\n"
 << "4 - Добавление по позиции;\n"
-<< "5 - Добавление перед элементом;\n"
-<< "6 - Добавление после элемента;\n"
+<< "5 - Добавление перед ;\n"
+<< "6 - Добавление после ;\n"
 << "-------------------------------------\n"
 << "7 - Удаление по позиции;\n"
-<< "8 - Удаление перед элементом;\n"
-<< "9 - Удаление после элемента;\n"
+<< "8 - Удаление по значению;\n"
+<< "9 - Удаление перед ;\n"
+<< "10 - Удаление после ;\n"
 << "-------------------------------------\n"
-<< "10 - Очистка списка;\n"
+<< "11 - Очистка списка;\n"
 << "-------------------------------------\n"
 //<< "11 - Поиск элемента по ключу;\n"
 //<< "12 - Поиск позиции по значению;\n"
@@ -337,7 +338,6 @@ case 7:
 case 8:
 {
 	system("cls");
-
 	if (pHead == NULL)
 	{
 		cout << "\n\t\tСоздайте список!\n" << endl;
@@ -351,16 +351,17 @@ case 8:
 		else
 		{
 			int cin_value = 0; Node* current;
-			cout << "Укажите значение перед которым нужно удалить элемент: ";
-			cin >> cin_value;
+			cout << "Введите значение: "; cin >> cin_value;
+
 			current = Find_value(pHead, cin_value);
+
 			if (current != NULL)
 			{
-				Dell_List_Before(pHead, *plast_del_key, current);
+				Dell_List_Value(pHead, current);
 			}
 			else
 			{
-				cout << "\n\t\tУказанное значение не найдено!\n\n";
+				cout << "\n\n\tУказанное значение не найдено!\n\n";
 			}
 		}
 	}
@@ -385,18 +386,56 @@ case 9:
 		}
 		else
 		{
-			int cin_value = 0; Node* current;
-			cout << "Укажите значение после которого нужно удалить элемент: ";
-			cin >> cin_value;
-			current = Find_value(pHead, cin_value);
-			if (current != NULL)
+			cout << "1 - Перед указанной позицией;\n"
+				<< "2 - Перед указанным значением\n";
+			cin >> cin_menu;
+			switch (cin_menu)
 			{
-				Dell_List_After(pHead, *plast_del_key, current);
+				case 1:
+				{
+					int cin_position = 0;
+					cout << "Укажите позицию перед которой нужно удалить элемент: ";
+					cin >> cin_position;
+
+					if (cin_position < 0 || cin_position >= pHead->value)
+					{
+						cout << "\n\t\tВведена не верная позиция!\n\n";
+					}
+					else
+					{
+						if (cin_position != NULL)
+						{
+							cin_position--;
+							Dell_List_Position(pHead, *plast_del_key, cin_position);
+						}
+						else
+						{
+							cout << "\n\t\tПеред указанной позицией удалять нечего!\n\n";
+						}
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+
+				case 2:
+				{
+					int cin_value = 0; Node* current;
+					cout << "Укажите значение перед которым нужно удалить элемент: ";
+					cin >> cin_value;
+					current = Find_value(pHead, cin_value);
+					if (current != NULL)
+					{
+						Dell_List_Before(pHead, *plast_del_key, current);
+					}
+					else
+					{
+						cout << "\n\t\tУказанное значение не найдено!\n\n";
+					}
+				}
 			}
-			else
-			{
-				cout << "\n\t\tУказанное значение не найдено!\n\n";
-			}
+
+			
 		}
 	}
 	system("pause");
@@ -405,6 +444,79 @@ case 9:
 }
 
 case 10:
+{
+	system("cls");
+
+	if (pHead == NULL)
+	{
+		cout << "\n\t\tСоздайте список!\n" << endl;
+	}
+	else
+	{
+		if (pHead->next == NULL)
+		{
+			cout << "\n\t\tСписок пуст!\n" << endl;
+		}
+		else
+		{
+			cout << "1 - После указанной позиции;\n"
+				<< "2 - После указанного значения\n";
+			cin >> cin_menu;
+
+			switch (cin_menu)
+			{
+				case 1:
+				{
+					int cin_position = 0;
+					cout << "Укажите позицию после которой нужно удалить элемент: ";
+					cin >> cin_position;
+
+					if (cin_position < 0 || cin_position >= pHead->value)
+					{
+						cout << "\n\t\tВведена не верная позиция!\n\n";
+					}
+					else
+					{
+						
+						if (cin_position != pHead->value - 1)
+						{
+							cin_position++;
+							Dell_List_Position(pHead, *plast_del_key, cin_position);
+						}
+						else
+						{
+							cout << "\n\t\tПосле указанной позиции удалять нечего!\n\n";
+						}
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+
+				case 2:
+				{
+					int cin_value = 0; Node* current;
+					cout << "Укажите значение после которого нужно удалить элемент: ";
+					cin >> cin_value;
+					current = Find_value(pHead, cin_value);
+					if (current != NULL)
+					{
+						Dell_List_After(pHead, *plast_del_key, current);
+					}
+					else
+					{
+						cout << "\n\t\tУказанное значение не найдено!\n\n";
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+			}
+		}
+	}
+}
+
+case 11:
 {
 	system("cls");
 	pHead = Clear_List(pHead);
@@ -501,7 +613,6 @@ Node* Refresh_Position(struct Node* pHead)
 
 void Add_Tail_List(struct Node* pHead, int& last_del_key, int value)
 {
-
 	Node* current;
 	if (pHead->next == NULL)
 	{
@@ -529,7 +640,6 @@ void Add_Tail_List(struct Node* pHead, int& last_del_key, int value)
 		pHead->value++;
 		cout << "\n\t\tЭлемент Добавлен!\n\n";
 	}
-
 }
 
 void Add_List_Position(struct Node* pHead, int& last_del_key, int value, int cin_position)
@@ -679,6 +789,26 @@ void Dell_List_Position(struct Node* pHead, int& last_del_key, int cin_position)
 	}
 }
 
+void Dell_List_Value(struct Node* pHead, struct Node *current)
+{
+	if (current->prev == NULL)
+	{
+		pHead->next = current->next;
+	}
+	else
+	{
+		current->prev->next = current->next;
+	}
+	if (current->next != NULL)
+	{
+		current->next->prev = current->prev;
+	}
+	delete current;
+	pHead->value--;
+	Refresh_Position(pHead);
+	cout << "\n\t\tУдаление успешно завершено!\n\n";
+}
+
 void Dell_List_Before(struct Node* pHead, int& last_del_key, Node* current)
 {
 	if (current == pHead->next)
@@ -731,19 +861,6 @@ void Dell_List_After(struct Node* pHead, int& last_del_key, Node* current)
 	}
 }
 
-Node* Find_Prev(struct Node* pHead, struct Node* t)
-{
-	Node* q = t;
-	for (t = pHead->next; t != pHead->next; t = t->next)
-	{
-		if (t->next == q)
-		{
-			return t;
-		}
-	}
-	return 0;
-}
-
 int Set_Key(int& last_del_key, int& count)
 {
 	int key = 0;
@@ -763,13 +880,13 @@ Node* Clear_List(struct Node* pHead)
 {
 	if (pHead == NULL)
 	{
-		cout << "\n\t\tОчередь не создана!\n\n";
+		cout << "\n\t\tСписок не создан!\n\n";
 	}
 	else
 	{
 		if (pHead->next == NULL)
 		{
-			cout << "\n\t\tОчередь пустая!\n" << endl;
+			cout << "\n\t\tСписок пустой!\n" << endl;
 		}
 		else
 		{
