@@ -181,25 +181,58 @@ case 5:
 		}
 		else
 		{
-			int cin_value = 0; Node* current;
-			cout << "Укажите значение перед которым нужно добавить элемент: ";
-			cin >> cin_value;
-			current = Find_value(pHead, cin_value);
-			if (current != NULL)
+			cout << "1 - Перед указанной позицией;\n"
+				<< "2 - Перед указанным значением\n";
+			cin >> cin_menu;
+			switch (cin_menu)
 			{
-				cout << "Введите значение: "; cin >> cin_value;
-				Add_List_Before(pHead, *plast_del_key, cin_value, current);
-			}
-			else
-			{
-				cout << "\n\t\tУказанное значение не найдено!\n\n";
+				case 1:
+				{
+					int cin_position = 0;
+					cout << "Укажите позицию перед которой нужно добавить элемент: ";
+					cin >> cin_position;
+
+					if (cin_position < 0 || cin_position >= pHead->value)
+					{
+						cout << "\n\t\tВведена не верная позиция!\n\n";
+					}
+					else
+					{
+						if (cin_position != NULL)
+						{
+							cin_position--;
+						}
+						cout << "Введите значение: "; cin >> value;
+						Add_List_Position(pHead, *plast_del_key, value, cin_position);
+						cout << "\n\t\tДобавление успешно завершено!\n\n";
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+				
+				case 2:
+				{
+					int cin_value = 0; Node* current;
+					cout << "Укажите значение перед которым нужно добавить элемент: ";
+					cin >> cin_value;
+					current = Find_value(pHead, cin_value);
+					if (current != NULL)
+					{
+						cout << "Введите значение: "; cin >> cin_value;
+						Add_List_Before(pHead, *plast_del_key, cin_value, current);
+					}
+					else
+					{
+						cout << "\n\t\tУказанное значение не найдено!\n\n";
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
 			}
 		}
 	}
-
-	system("pause");
-	system("cls");
-	goto menu;
 }
 
 case 6:
@@ -217,26 +250,55 @@ case 6:
 		}
 		else
 		{
-			int cin_value = 0; Node* current;
-			cout << "Укажите значение после которого нужно добавить элемент: ";
-			cin >> cin_value;
-			current = Find_value(pHead, cin_value);
-			if (current != NULL)
+			cout << "1 - После указанной позиции;\n"
+				<< "2 - После указанного значения\n";
+			cin >> cin_menu;
+			switch (cin_menu)
 			{
-				cout << "Введите значение: "; cin >> cin_value;
-				Add_List_After(pHead, *plast_del_key, cin_value, current);
-			}
-			else
-			{
-				cout << "\n\t\tУказанное значение не найдено!\n\n";
+				case 1:
+				{
+					int cin_position = 0;
+					cout << "Укажите позицию после которой нужно добавить элемент: ";
+					cin >> cin_position;
+
+					if (cin_position < 0 || cin_position >= pHead->value)
+					{
+						cout << "\n\t\tВведена не верная позиция!\n\n";
+					}
+					else
+					{
+						cin_position++;	
+						cout << "Введите значение: "; cin >> value;
+						Add_List_Position(pHead, *plast_del_key, value, cin_position);
+						cout << "\n\t\tДобавление успешно завершено!\n\n";
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+
+				case 2:
+				{
+					int cin_value = 0; Node* current;
+					cout << "Укажите значение после которого нужно добавить элемент: ";
+					cin >> cin_value;
+					current = Find_value(pHead, cin_value);
+					if (current != NULL)
+					{
+						cout << "Введите значение: "; cin >> cin_value;
+						Add_List_After(pHead, *plast_del_key, cin_value, current);
+					}
+					else
+					{
+						cout << "\n\t\tУказанное значение не найдено!\n\n";
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
 			}
 		}
-
 	}
-
-	system("pause");
-	system("cls");
-	goto menu;
 }
 
 case 7:
