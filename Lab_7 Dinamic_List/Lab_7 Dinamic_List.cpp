@@ -29,6 +29,7 @@ Node* Find_Tail(struct Node* pHead);
 Node* Find_value(struct Node* pHead, int& cin_value);
 bool Find_Copy(struct Node* pHead, struct Node* current);
 Node* Find_Current_By_Key(struct Node* pHead, int key);
+void Seach_Value_By_Position(struct Node* pHead, int cin_position);
 
 
 int main()
@@ -626,11 +627,71 @@ case 12:
 			{
 				case 1:
 				{
+					int cin_position = 0;
+					cout << "Укажите позицию после которой нужно найти элемент: ";
+					cin >> cin_position;
 
+					if (cin_position < 0 || cin_position >= pHead->value)
+					{
+						cout << "\n\t\tВведена не верная позиция!\n\n";
+					}
+					else
+					{
+						if (cin_position == pHead->value - 1)
+						{
+							cout << "\n\t\tПосле этой позиции нет элемента!\n\n";
+						}
+						else
+						{
+							cin_position++;
+							Seach_Value_By_Position(pHead, cin_position);
+						}
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+
+				case 3:
+				{
+					int cin_position = 0;
+					cout << "Укажите позицию перед которой нужно найти элемент: ";
+					cin >> cin_position;
+
+					if (cin_position < 0 || cin_position >= pHead->value)
+					{
+						cout << "\n\t\tВведена не верная позиция!\n\n";
+					}
+					else
+					{
+						if (cin_position == 0)
+						{
+							cout << "\n\t\tПеред этой позицией нет элемента!\n\n";
+						}
+						else
+						{
+							cin_position--;
+							Seach_Value_By_Position(pHead, cin_position);
+						}
+					}
+					system("pause");
+					system("cls");
+					goto menu;
+				}
+
+				default:
+				{
+					cout << "\n\t\tНе верный выбор!\n\n";
+					system("pause");
+					system("cls");
+					goto menu;
 				}
 			}
 		}
 	}
+	system("pause");
+	system("cls");
+	goto menu;
 }
 
 default:
@@ -744,7 +805,7 @@ void Add_List_Position(struct Node* pHead, int& last_del_key, int value, int cin
 		pHead->value++;
 		Refresh_Position(pHead);
 	}
-	else if (cin_position == pHead->value) //cin_pos. == кол-ву знач.
+	else if (cin_position == pHead->value) //cin_pos. == кол-ву элем.
 	{
 		current = Find_Tail(pHead);
 		current->next = new (Node);
@@ -1100,4 +1161,28 @@ Node* Find_Current_By_Key(struct Node* pHead, int key)
 		}
 	}
 	return current;
+}
+
+void Seach_Value_By_Position(struct Node* pHead, int cin_position)
+{
+	Node* current = pHead->next;
+	while (current->position != cin_position)
+	{
+		current = current->next;
+	}
+	cout << "Значение = " << current->value << "\tПозиция " << current->position << "\tАдрес = " << current << "\tКлюч = " << current->key << endl;
+}
+
+void Seach_Value_By_Value(struct Node* current, int number)
+{
+	if (number == 1)
+	{
+		current = current->next;
+	}
+	else if (number == 2)
+	{
+		current = current->prev;
+	}
+	cout << "Значение = " << current->value << "\tПозиция " << current->position << "\tАдрес = " << current << "\tКлюч = " << current->key << endl;
+
 }
