@@ -23,8 +23,6 @@ void Dell_List_After(struct Node* pHead, int& last_del_key, Node* current);
 Node* Refresh_Position(struct Node* pHead);
 Node* Clear_List(struct Node* pHead);
 int Set_Key(int& last_del_key, int& count);
-void Find_Key(struct Node* pHead);
-void Find_Position(struct Node* pHead, struct Node* t);
 Node* Find_Tail(struct Node* pHead);
 Node* Find_value(struct Node* pHead, int& cin_value);
 bool Find_Copy(struct Node* pHead, struct Node* current);
@@ -619,9 +617,7 @@ case 12:
 		else
 		{
 			cout << "1 - Поиск элемента после указанной позиции;\n"
-				<< "2 - Поиск элемента после указанного значения\n"
-				<< "3 - Поиск элемента перед указанной позицией\n"
-				<< "4 - Поиск элемента перед указанным значением\n";
+				<< "2 - Поиск элемента перед указанной позицией\n";
 			cin >> cin_menu;
 			switch (cin_menu)
 			{
@@ -652,7 +648,7 @@ case 12:
 					goto menu;
 				}
 
-				case 3:
+				case 2:
 				{
 					int cin_position = 0;
 					cout << "Укажите позицию перед которой нужно найти элемент: ";
@@ -1047,62 +1043,6 @@ Node* Clear_List(struct Node* pHead)
 	return pHead;
 }
 
-void Find_Key(struct Node* pHead)
-{
-	if (pHead == NULL)
-	{
-		cout << "\n\t\tСоздайте список!\n\n";
-	}
-	else
-	{
-		if (pHead->next == NULL)
-		{
-			cout << "\n\t\tСписок пуст!\n\n";
-		}
-		else
-		{
-			int cin_key = 0;
-			Node* t;
-			bool find_key = false;
-			cout << "\n\t\tВведите ключ: "; cin >> cin_key;
-
-			for (t = pHead->next; t != NULL; t = t->next)
-			{
-				if (t->key == cin_key)
-				{
-					cout << "\n\t\tЭлемент найден!\n"
-						<< "\n\t\tЗначение = " << t->value << "\tПозиция = " << t->position << "\tКлюч = " << t->key << "\tАдрес = " << t << endl << endl;
-					find_key = true;
-				}
-			}
-			if (find_key == false)
-			{
-				cout << "\n\t\tКлюч не найден!\n\n";
-			}
-		}
-	}
-}
-
-void Find_Position(struct Node* pHead, struct Node* t)
-{
-	if (pHead == NULL)
-	{
-		cout << "\n\t\tСоздайте список!\n\n";
-	}
-	else
-	{
-		if (pHead->next == NULL)
-		{
-			cout << "\n\t\tСписок пуст!\n\n";
-		}
-		else
-		{
-			cout << "\n\t\tЭлемент найден!\n"
-				<< "\n\t\tЗначение = " << t->value << "\tПозиция = " << t->position << "\tКлюч = " << t->key << "\tАдрес = " << t << endl << endl;
-		}
-	}
-}
-
 Node* Find_Tail(struct Node* pHead)
 {
 	Node* Tail;
@@ -1171,18 +1111,4 @@ void Seach_Value_By_Position(struct Node* pHead, int cin_position)
 		current = current->next;
 	}
 	cout << "Значение = " << current->value << "\tПозиция " << current->position << "\tАдрес = " << current << "\tКлюч = " << current->key << endl;
-}
-
-void Seach_Value_By_Value(struct Node* current, int number)
-{
-	if (number == 1)
-	{
-		current = current->next;
-	}
-	else if (number == 2)
-	{
-		current = current->prev;
-	}
-	cout << "Значение = " << current->value << "\tПозиция " << current->position << "\tАдрес = " << current << "\tКлюч = " << current->key << endl;
-
 }
